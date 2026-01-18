@@ -1,0 +1,48 @@
+---
+title: "project_2_Data description"
+author: "Johan Kevin"
+format: pdf
+editor: visual
+
+header-includes:
+- \usepackage{float}
+- \floatplacement{table}{H}
+- \floatplacement{figure}{H}
+---
+
+# 2.Data Description
+
+The dataset used for this project contains historical stock price data for six companies: Apple (**AAPL**), Amazon (**AMZN**), Alphabet (**GOOGL**), Microsoft (**MSFT**), Tesla (**TSLA**), and Visa (**V**). Each row corresponds to a specific trading day, while the columns provide different stock-related attributes such as adjusted closing prices, closing prices, and the highest prices recorded on each day.
+
+##### How the Data Was Collected
+
+The dataset was retrieved using the Python **yfinance** library, which sources data directly from *Yahoo Finance*. It was then saved as a *CSV* file and imported into *RStudio* for further analysis. This process ensures getting good and structured data for the different financial analysis.
+
+##### What the Data Represents
+
+The dataset reflects daily market activity for the selected companies from **2010**, for a period of 10+ years, for some stocks, and less for others like Tesla, which was not founded then. This dataset allows the calculation of financial metrics such as ***returns, volatility, and correlations***, which are essential for evaluating ***stock performance and risk-reward*** relationships and deriving insights into stock performance and market trends.
+
+##### More on Data Description
+
+For this dataset, the Close column will be central for this analysis. It represents the price at which each stock closed on a given day and is used to calculate daily returns, volatility, and correlations.
+
+##### Data Characteristics
+
+-   Each field (e.g., Adj.Close, Close, High) is repeated for each stock, with suffixes (.1, .2, etc.) distinguishing between stock indices.
+
+-   Missing values (NA) exist in some columns, likely due to non-trading days or unavailable data for specific stocks.
+
+-   The dataset includes 6 unique stocks, each with detailed price information across multiple attributes.
+
+##### Fields Description:
+
+Below is a table summarizing the fields in the dataset:
+
+| **Field** | **Description** | **Data Type** | **Example** |
+|----|----|----|----|
+| `Date` | Trading date in YYYY-MM-DD format. Used for time-series analysis. | Date | `2010-01-04` |
+| `Ticker` | Stock ticker symbol identifying the company. | Character | `AAPL`, `AMZN` |
+| `Adj.Close` | Adjusted closing price. | Numeric | `19.78` |
+| `Close` | **Primary column used for analysis.** Closing price at the end of each trading day. | Numeric | `20.95` |
+| `High` | The highest price recorded during the trading day. | Numeric | `22.03` |
+| `Volume` | Number of shares trade during the trading day | Numeric | `38,409,100` |

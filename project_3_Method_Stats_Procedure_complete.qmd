@@ -1,0 +1,419 @@
+---
+title: "project_3_Method_Stats_Procedure"
+author: "Johan Kevin"
+format: pdf
+editor: visual
+
+header-includes:
+- \usepackage{float}
+- \floatplacement{table}{H}
+- \floatplacement{figure}{H}
+
+knitr:
+  opts_chunk:
+    fig.path: "figures/"
+---
+
+# 3. Method/ Stats Procedure.
+
+The following are the libraries used.
+
+```{r}
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(pandoc)
+library(knitr)
+library(kableExtra)
+library(GGally)
+library(corrplot)
+library(TTR)
+library(forecast)
+library(ggplot2)
+library(kableExtra)
+library(kableExtra)
+
+```
+
+This project involved analyzing stock market data to test the hypothesis: "**Stocks with higher volatility tend to have higher average returns over time**." To do that, the following tests were performed: **return calculation**, **volatility**, **correlation**, **linear regression**, and **Sharpe ratio**. But before that, the dataset had to be transformed.
+
+## **1.Descriptive Statistics**
+
+The dataset "**ChallengeStocks.csv**", was imported into Rstudio, with all its closing prices for the different stocks.
+
+```{r}
+#| results: hide
+
+chalenge<- read.csv("ChallengeStocks.csv")
+head(chalenge)
+```
+
+The data was transformed in the following way. Using the "**grep()**", function, multiple columns starting with "**Close**" were all selected(R-bloggers,2024 ), and converted into **numerical format**(R-bloggers,2024), using "**as.numeric()**". This ensured that the dataset is structured appropriately and ready for statistical analysis.
+
+```{r}
+#| warning: false
+#| message: false
+#| results: hide
+
+#select all Close columns
+close_cols <- grep("^Close", colnames(chalenge), value = TRUE)
+
+
+# Convert the selected columns to numeric
+# just for safety
+chalenge[close_cols] <- lapply(chalenge[close_cols], as.numeric)
+head(chalenge[close_cols] )
+
+```
+
+This ensure, that the dataset is structured appropriately and ready for statistical analysis.
+
+### Mean, Variance, and **Standard deviation** of price
+
+The following descriptive statistics: ***mean***, the ***variance*** and the ***standard deviation,*** Using the same "**Close**" columns, were calculated, by using the following functions "**summarise**()", "**across**()", and "**all_of**()"(CMD Line Tips, 2021; Wickham, n.d.). So as to have to have an idea of the stocks behavior.
+
+The **mean** of price, calculates the average closing price for each stock.
+
+```{r}
+#| results: hide
+
+# Compute mean for all Close columns
+mean_close_cols_stats <- chalenge %>%
+  summarise(across(all_of(close_cols), ~ mean(.x, na.rm = TRUE)))
+
+# View the result
+mean_close_cols_stats
+```
+
+The **variance** of price measures the spread of stock prices around the mean, showing how the price varies.
+
+```{r}
+#| results: hide
+
+# Compute variance for all Close columns
+variance_close_cols_stats <- chalenge %>%
+  summarise(across(all_of(close_cols), ~ var(.x, na.rm = TRUE)))
+
+
+# View the results
+variance_close_cols_stats
+
+```
+
+**The standard deviation** of price(volatility), derived from variance, is a measure of how risky a stock is.
+
+```{r}
+#| results: hide
+
+# Compute standard deviation for all Close columns
+stddev_close_cols_stats <- chalenge %>%
+  summarise(across(all_of(close_cols), ~ sd(.x, na.rm = TRUE)))
+
+# View the results
+stddev_close_cols_stats
+```
+
+Then, the **mean**, **variance** and the **standard deviation**, were combined into one data frame, to form a table(GeeksforGeeks, n.d.).
+
+```{r}
+#| results: hide
+
+# Combine mean, variance, and standard deviation into one data frame
+stats_close_combined <- data.frame(
+  Stocks_names = c("AAPL", "AMZN", "GOOGL", "MSFT", "TSLA", "V"),
+  Mean = unlist(mean_close_cols_stats , use.names = TRUE),
+  Variance = unlist(variance_close_cols_stats, use.names = TRUE),
+  StdDev = unlist(stddev_close_cols_stats, use.names = TRUE)
+)
+
+
+# View the combined data frame
+stats_close_combined
+
+```
+
+## **2.Return, Volatility, Correlations and Heatmaps**
+
+This section builds up on the previous ones. In order to be able to calculate anything. We need to modify the "**Close**" column a bit further. Using the "**paste0**()", new columns were created, specific for calculating the stocks return (R-Bloggers, 2016; Statistics Globe, n.d.)
+
+```{r}
+#| results: hide
+
+# Create new column names for returns
+returns_cols <- paste0(close_cols, "_Returns")
+
+# just to be sure
+chalenge[returns_cols] <- lapply(chalenge[close_cols], as.numeric,na.rm =TRUE)
+
+head(chalenge[returns_cols])
+
+```
+
+Next, is where the actual formula used for calculating return, is implemented, by putting it inside the "**calculate_returns**" function(Stack Overflow, n.d.). And then using the "**lapply**()" function, the stock returns were calculated (R-Bloggers, 2022).
+
+```{r}
+#| results: hide
+
+# create a function that handles the return calculation
+calculate_returns <- function(x){
+  (x-lag(x))/lag(x)
+}
+
+# calculate return
+chalenge[returns_cols] <- lapply(chalenge[close_cols], calculate_returns)
+
+
+#show the first fews rows of the return
+head(chalenge[returns_cols])
+```
+
+### 2.1.compute average stock return(mean)
+
+Using the newly created \[**returns_cols**\], the average stock return was calculated using the following functions "**summarise**()", "**across**()", and "**all_of**()"(CMD Line Tips, 2021; Wickham, n.d.).
+
+```{r}
+#| results: hide
+
+# Compute average returns (mean) for all Return columns
+mean_returns_stats <- chalenge %>%
+  summarise(across(all_of(returns_cols), 
+                   ~ mean(.x, na.rm = TRUE)))
+
+mean_returns_stats
+
+```
+
+### 2.2.compute sd, to get the volatility
+
+The **volatility**(sd) was also calculated, in the same manner as the return.
+
+```{r}
+#| results: hide
+
+# Compute standard deviation (volatility) for all Return columns
+stddev_returns_stats <- chalenge %>%
+ summarise(across(all_of(returns_cols), ~ sd(.x, na.rm = TRUE)))
+
+# View the results
+stddev_returns_stats
+```
+
+#### Combine Results for average returns and volatility for each stock
+
+The average return and the volatility were combined together in a data frame.
+
+```{r}
+#| results: hide
+
+# Combine mean (average returns) 
+# and standard deviation (volatility) into one data frame
+returns_stats_combined <- data.frame(
+  Stock = c("AAPL", "AMZN", "GOOGL", "MSFT", "TSLA", "V"),
+  Average_Return = unlist(mean_returns_stats, use.names = FALSE),
+  Volatility = unlist(stddev_returns_stats, use.names = FALSE)
+)
+
+# View the combined statistics
+returns_stats_combined
+
+```
+
+#### Visualization
+
+A Scatter Plot was created to visualize the relationship between **volatility and average returns**, as outlined in the following code chunk.
+
+```{r}
+#| results: hide
+#| fig.show: hide
+#| echo: true
+
+plot(returns_stats_combined$Volatility, 
+     returns_stats_combined$Average_Return,
+     xlab= "Volatility (Standard Deviation)",
+     ylab = "Average Returns")
+```
+
+The following code chunk also create scatterplot which shows the same thing as the previous one, but better. The stocks being shown are in the following order: ***MSFT, V, GOOGL ,AAPL, AMZN, TSLA***.
+
+```{r}
+#| results: hide
+#| fig.show: hide
+#| echo: true
+
+#reference: ?geom_text
+
+ggplot(returns_stats_combined, 
+       aes(x = Volatility, 
+           y = Average_Return, 
+           label = Stock)) +
+  geom_point(color = "blue", size = 1.5) +
+  geom_text(nudge_y = 0.0005, 
+            size = 3,check_overlap = TRUE) +
+  ggtitle("Volatility vs. Average Returns") +
+  labs(x = "Volatility (Standard Deviation)", 
+       y = "Average Returns") +
+  theme_minimal()
+
+
+```
+
+### 2.3.Correlation Analysis.
+
+A correlation was computed between volatility and average returns, using the following code chunk.
+
+```{r}
+
+# correlation analysis
+correlation <- cor(returns_stats_combined$Volatility,
+                   returns_stats_combined$Average_Return)
+
+
+```
+
+### 2.4.Correlation matrix
+
+Next a correlation between the 6 stocks was calculated(Finance Train, n.d.). Followed by the visualization of the resulting correlation matrix, visualize through a heat map(Statistics Globe, n.d.).
+
+```{r}
+# correlation calculation
+coorelation <- cor(chalenge[returns_cols],use = "complete.obs")
+```
+
+```{r}
+#| results: hide
+#| fig.show: hide
+#| echo: true
+
+# visualize the correlation
+
+# create new column names
+new_names <- c("AAPL_c", "AMZN_c", "GOOGL_c", "MSFT_c", "TSLA_c", "V_c")
+rownames(coorelation) <- new_names
+colnames(coorelation) <- new_names
+
+
+
+# Plot the heatmap with updated names
+corrplot(coorelation, 
+         method = "color", 
+         tl.col = "black", 
+         addCoef.col = "black",
+         tl.srt = 45)
+
+
+
+```
+
+## 3. Regression Analysis
+
+To further refine the results for the hypothesis, a regression analysis between average return and volatility was calculated, and summarized. Followed by a visualization of the same regression(Statology, n.d.; Stack Overflow, n.d.).
+
+```{r}
+#| results: hide
+
+# regression analysis
+regression_model <- lm(Average_Return ~ Volatility, 
+                       data = returns_stats_combined)
+summary(regression_model)
+
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| results: hide
+#| fig.show: hide
+#| echo: true
+
+# visualising the regression analysis
+ggplot(returns_stats_combined, 
+       aes(x = Volatility, 
+           y = Average_Return)) +
+     geom_point(color = "blue", 
+                size = 3) +
+     geom_smooth(method = "lm", 
+                 color = "red") +
+     ggtitle("Regression: Average Returns vs. Volatility") +
+     labs(x = "Volatility (Standard Deviation)", 
+          y = "Average Returns") +
+     theme_minimal()
+```
+
+## 4. Risk Metrics
+
+For our risk metric, the Sharpe Ratio, which is a measure of the risk-adjusted return of each stock, was calculated(Investopedia, n.d.). First, the formula was put into a function "**calculate_sharpe_ratio**", for better reproducibility.
+
+And when it came to choosing the risk free rate, unless you are an expert that needs to be extremely accurate. A risk free rate of 1% should be good enough(Bocconi Students Investment Club, n.d.).
+
+First, make sure to cover the basics, by creating Sharpe ratio columns, that way there is no overlapping.
+
+```{r}
+#| results: hide
+
+
+# basics
+risk_free_rate <- 0.01  # Annual risk-free rate ( 1%)
+
+# sharpe ratio columns
+sharpe_ratio_cols <- paste0(returns_cols, 
+                            "_Sharpe")
+
+# make sure everything is in numeric format
+# to avoid any errors
+chalenge[sharpe_ratio_cols] <- 
+  lapply(chalenge[returns_cols], as.numeric)
+
+
+```
+
+Second, create the Sharpe ratio formula.
+
+```{r}
+# formula for sharpe ratio
+calculate_sharpe_ratio <- function(x) {
+  (mean(x, na.rm = TRUE) - risk_free_rate) / sd(x, na.rm = TRUE)
+}
+
+```
+
+Third, calculate the Sharpe ratio for each stock.
+
+```{r}
+#| results: hide
+
+
+# Sharpe Ratio Calculation for Each Stock
+sharpe_ratio_metrics <- chalenge %>%
+  summarise(across(all_of(returns_cols),
+                    ~ calculate_sharpe_ratio(.x)
+  ))
+
+```
+
+And lastly, combine everything into one table.
+
+```{r}
+#| results: hide
+
+
+# Combine Sharpe Ratios into a Data Frame
+sharpe_ratio_metrics_df <- data.frame(
+  Stock = c("AAPL", "AMZN", "GOOGL", "MSFT", "TSLA", "V"),
+  Sharpe_Ratio = unlist(sharpe_ratio_metrics, use.names = FALSE)
+)
+
+# View Sharpe Ratios
+sharpe_ratio_metrics_df
+
+
+
+# and visualize the data frame in a table
+
+# inverted  data frame for the result section"
+
+#kable(sharpe_ratio_metrics_df) %>%
+#  kable_styling(latex_options = "hold_position", 
+#                full_width = FALSE, 
+#                position = "center")
+```

@@ -1,0 +1,64 @@
+---
+title: "reference"
+author: "me"
+format: pdf
+editor: visual
+---
+
+# 6.Reference
+
+1.  Alexandrina, B., Ioan, V., & Lazarescu, I. (2023). Critical Analysis of the Sharpe Ratio: Assessing Performance and Risk in Financial Portfolio Management. *Ovidius University Annals, Economic Sciences Series, 23*(2), 631–638.
+
+2.  Sharpe, W. F. (1994). The Sharpe Ratio. *The Journal of Portfolio Management, 21*(1), 49–58. https://doi.org/10.3905/jpm.1994.409501
+
+3.  Pedersen, L. H., & Engle, R. F. (2014). Beyond Sharpe Ratio: Optimal Asset Allocation. *Journal of Financial Economics, 111*(1), 1–23. https://doi.org/10.1016/j.jfineco.2013.10.007
+
+4.  Ahmad, M. I., Hasan, M., & Rehman, R. U. (2018). Performance of Moving Average Investment Timing Strategy in UK Stock Market: Individual Stocks versus Portfolios. *Journal of Economic and Social Studies, 7*(2), 1–12.
+
+5.  Metghalchi, M., Marcucci, J., & Chang, C. (2012). Profitability of Moving Average Trading Rules in Emerging Markets. *Emerging Markets Finance and Trade, 48*(5), 71–89.
+
+6.  Engle, R. (2002). Dynamic Conditional Correlation: A Simple Class of Multivariate GARCH Models. *Journal of Business & Economic Statistics, 20*(3), 339–350. https://doi.org/10.1198/073500102288618487
+
+7.  Kaminski, K. M., & Lo, A. W. (2014). Maximum Drawdown, Recovery, and Momentum in Trend-Following Investment Strategies. *Financial Analysts Journal, 70*(6), 56–72. https://doi.org/10.2469/faj.v70.n6.5
+
+8.  Sun, Z., Tang, D., & Wang, J. (2020). Tail Risk in the Chinese Stock Market: An AEV Model Approach. *Journal of Financial Econometrics, 18*(1), 1–21. https://doi.org/10.1093/jjfinec/nbz017
+
+9.  Roch, F., & Matte, J. (2019). Conditional Expected Drawdown (CED): A Risk Measure for Portfolio Optimization. *Quantitative Finance, 19*(6), 935–951. https://doi.org/10.1080/14697688.2018.1553109
+
+10. Barroso, P., & Santa-Clara, P. (2015). Momentum Has Its Crashes: Risk-Adjusted Momentum Strategies. *Journal of Financial Economics, 116*(1), 111–120. https://doi.org/10.1016/j.jfineco.2014.11.010
+
+11. Hendershott, T., Jones, C. M., & Menkveld, A. J. (2011). Algorithmic Trading and the Market for Liquidity. *The Journal of Finance, 66*(1), 1–33. <https://doi.org/10.1111/j.1540-6261.2010.01624.x>
+
+12. Nwude, E. C. (2012). A review of the psychology of the capital market in an emerging economy. *Research Journal of Finance and Accounting.* Retrieved from <https://iiste.org/Journals/index.php/RJFA/article/viewFile/3819/3879/>
+
+13. R-bloggers. (2024, September). *How to use grep and return only substring in R: A comprehensive guide*. Retrieved from <https://www.r-bloggers.com/2024/09/how-to-use-grep-and-return-only-substring-in-r-a-comprehensive-guide/>
+
+14. R-bloggers. (2024, September). *How to use lapply function with multiple arguments in R*. Retrieved from <https://www.r-bloggers.com/2024/09/how-to-use-lapply-function-with-multiple-arguments-in-r/>
+
+15. CMD Line Tips. (2021, June). *Compute column means in R*. Retrieved from <https://cmdlinetips.com/2021/06/compute-column-means-in-r/>
+
+16. Wickham, H. (n.d.). *Column-wise operations in dplyr*. Retrieved from <https://dplyr.tidyverse.org/articles/colwise.html>
+
+17. GeeksforGeeks. (n.d.). *Unnesting a list of lists in a data frame column in R*. Retrieved from <https://www.geeksforgeeks.org/unnesting-a-list-of-lists-in-a-data-frame-column-in-r/>
+
+18. R-Bloggers. (2016, October). *Difference between paste and paste0*. Retrieved from <https://www.r-bloggers.com/2016/10/difference-between-paste-and-paste0/>
+
+19. Statistics Globe. (n.d.). *R: Create variable name using paste function*. Retrieved from <https://statisticsglobe.com/r-create-variable-name-using-paste-function>
+
+20. R-Bloggers. (2022, July). *How to calculate lag by group in R*. Retrieved from <https://www.r-bloggers.com/2022/07/how-to-calculate-lag-by-group-in-r/>
+
+21. Stack Overflow. (n.d.). *How to calculate returns from a vector of prices*. Retrieved from <https://stackoverflow.com/questions/7141038/how-to-calculate-returns-from-a-vector-of-prices>
+
+22. Finance Train. (n.d.). *Correlation analysis in R for finance data*. Retrieved November 17, 2024, from <https://financetrain.com/correlation-analysis-r-finance-data>
+
+23. Statistics Globe. (n.d.). *Heatmap in R*. Retrieved November 17, 2024, from <https://statisticsglobe.com/heatmap-in-r>
+
+24. Statology. (n.d.). *How to Perform Linear Regression in ggplot2 (With Examples)*. Retrieved November 17, 2024, from <https://www.statology.org/ggplot2-linear-regression/>
+
+25. Stack Overflow. (n.d.). *Add regression line equation and R² on graph*. Retrieved November 17, 2024, from <https://stackoverflow.com/questions/7549694/add-regression-line-equation-and-r2-on-graph>
+
+26. Investopedia. (n.d.). *Sharpe ratio*. Retrieved November 17, 2024, from <https://www.investopedia.com/terms/s/sharperatio.asp>
+
+27. Bocconi Students Investment Club. (n.d.). *How to choose the right risk-free rate*. Retrieved November 17, 2024, from <https://bsic.it/how-to-choose-the-right-risk-free-rate/>
+
+28. Stack Overflow. (n.d.). *Removing display of row names from data frame*. Retrieved December 8, 2024, from <https://stackoverflow.com/questions/24428051/removing-display-of-row-names-from-data-frame>
