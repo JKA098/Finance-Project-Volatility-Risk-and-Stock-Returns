@@ -1,4 +1,4 @@
-#  Term Project — Volatility, Risk, and Stock Returns
+#  Project — Volatility, Risk, and Stock Returns
 
 
 
@@ -229,6 +229,7 @@ Risk-adjusted performance was measured alongside the following:
 * Portfolio-level analysis
 * Time-varying volatility models
 * Sector-based comparison
+
 
 
 
